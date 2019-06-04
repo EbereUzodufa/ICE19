@@ -29,6 +29,7 @@
             margin: 0px;
             background: #fff;
             font-family: 'Roboto', serif-sans;
+            min-height: 100vh;
         }
 
         img#preview{
@@ -396,7 +397,7 @@
                     </div>
                     <div class="goingToICE__form__field">
                         <label for="your-img">Your Picture</label>
-                        <input type="file" onchange="previewFile()" id="your-img" name="your-img" accept=".png, .jpg, .jpeg">
+                        <input type="file" onchange="previewFile()" id="your-img" name="your-img" accept=".png, .jpg, .jpeg" size="1000000">
                     </div>
                     <div class="goingToICE__form__field">
                             <img id="preview" src="" alt="">
