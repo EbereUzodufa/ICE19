@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<title>ICE'19 | I'm attending</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes">
+    <link rel="manifest" href="manifest.json"/>
+    <link rel="icon" href="icon.png"/>
+    <meta name="theme-color" content="#F26A44">
+    <script src="assets/html2canvas.js"></script>
+    <style>
+
+        /* colors
+        blue - #2A3B4F;
+        red - #F26A44; */
+        @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono|Carrois+Gothic|Roboto|Viga|Open+Sans');
+
+        body, main, section, article{
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        body, main, section{
+            width: 100%;
+            max-width: 100%;
+        }
+
+        body{
+            margin: 0px;
+            background: #fff;
+            font-family: 'Roboto', serif-sans;
+        }
+
+        img#preview{
+            width: 150px;
+            display: none;
+            height: 150px;
+            margin: auto;
+        }
+
+        article.goingToICE {
+            width: calc(100% - 20px);
+            margin:20px auto;
+            display: grid;
+            grid-template-rows: 150px auto;
+        }
+        
+        form.goingToICE__form{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        section{
+            background: #2A3B4F;
+        }
+
+        h1 {
+            font-size: 25px;
+            font-family: 'Roboto', serif-sans;
+            font-weight: bold;
+            text-align: center;
+            color: #F26A44;
+            margin: 30px auto;
+        }
+
+        label, input{
+            width: 100%;
+            border: 0px;
+            margin: 5px auto;
+        }
+
+        input, h1{
+            align-self: center;
+        }
+
+        div.goingToICE__form__field label{
+            font-size: 16px;
+            font-family: 'Roboto', serif-sans;
+            color: #fff;
+            text-align: center;
+        }
+
+        div.goingToICE__form__field{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px auto;
+        }
+
+        div.goingToICE__form__field input{
+            font-family: 'Open Sans', serif-sans;
+            font-weight: 600;
+            font-size: 20px;
+            display: flex;
+            color: #fff;
+        /*     padding: 5px; */
+            text-transform: capitalize;
+            background: none;
+        }
+
+        div.goingToICE__form__field input[type=text]{
+            border-bottom: 2px solid #F26A44;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        button#download-btn {
+            font-family: 'Roboto', serif-sans;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            color: #fff;
+            background: #F26A44;
+            border: 1px solid #F26A44;
+            margin: 10px auto;
+            transition: 0.5s;
+            text-transform: capitalize;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 50px;
+            height: 3em;
+        }
+
+        button#download-btn:hover{
+            background: transparent;
+            color: #F26A44;
+        }
+
+        article#frame {
+            z-index: -1;
+            position: absolute;
+            padding: 0px;
+            margin: 0px;
+            /* display: none; */
+        }
+
+        [aria-hidden = "true"]{
+            display: none;
+        }
+
+        [aria-hidden = "false"]{
+            display: grid;
+        }
+
+        /* Vote of thanks */
+        p.thanks {
+            color: #fff;
+            font-size: 1.1em;
+            width: 100%;
+            word-break: break-word;
+            text-align: center;
+        }
+
+        p.thanks span {
+            color: #F26A44;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        ul.hashtag-list li{
+            padding: 5px;
+            width: 100%;
+            text-align: left;
+        }
+
+        div.image-cover{display: none;}
+
+        /* Card CSS */
+        article.card {
+            display: grid;
+            width:763px;
+            height: 1080px;
+            grid-template-rows: 100px 500px 230px 200px 50px;
+            grid-template-columns: 21.5px 400px 320px 21.5px;
+            background: #2A3B4F;
+        }
+
+        div.card__div{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card__header{
+            grid-row:1/2;
+            grid-column:1/5;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card__footer{
+            grid-row: 5/6;
+            grid-column: 1/5;
+        }
+
+        .card__img-container {
+            grid-row: 2/3;
+            grid-column: 1/5;
+            background: url(img-background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card__details{
+            grid-row: 3/4;
+            grid-column: 2/4;
+        }
+
+        .card__address {
+            grid-column: 2/3;
+            grid-row: 4/5;
+        }
+
+        .card__icon_-container {
+            grid-column: 3/4;
+            grid-row: 4/5;
+        }
+
+        
+        img#person-img {
+            width: 390px;
+            height: 390px;
+            background: #fff; /*in case of .png*/
+            border-radius: 50%;
+            margin: auto;
+            padding: 10px;
+            align-self: center;
+        }
+
+        p.card__p{
+            width: 100%;
+            font-size: 30px;
+            margin: auto;
+        }
+
+        p.card__hashtag{
+            font-family: "IBM Plex Mono", serif-sans;
+            font-size: 45px;
+            font-weight: bold;
+            margin: auto;
+        }
+
+        p.card__p__program{
+            font-weight: bold;
+            font-size: 36px;
+        }
+
+        p.card__details__personName.card__p span{
+            padding: 5px;
+            font-family: 'Viga', sans-serif;
+            font-size: 35px;
+        }
+        
+        p.card__address__p.card--sentenceCaseText.card--leftText.card__p span.address__p{
+            width: 100%;
+        }
+
+        p.card__address__p.card--sentenceCaseText.card--leftText.card__p {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .address__p.p__university{
+            font-size: 28px;
+            font-weight: bold;
+            color: #6CB34F;
+        }
+
+        .address__p.p__date{
+            font-size: 24px;
+            color: #B9CD41;
+        }
+
+        .address__p.p__motto{
+            font-size: 20px;
+            color: #24ABE0;
+        }
+
+        p.card__footer{
+            font-size: 35px;
+            font-family: 'Carrois Gothic', sans-serif;
+            text-align: center;
+        }
+
+        p.card__footer span{
+            margin: auto 40px;
+        }
+
+        /* color font and Backgrounds */
+
+        .card--redBackground{
+            background: #F26A44;
+        }
+
+        .card--redFont{
+            color: #F26A44;
+        }
+
+        .card--whiteFont{
+            color: #fff;
+        }
+
+        /* Font decoration and alignment */
+
+        .card--rightText{
+            text-align: right;
+        }
+
+        .card--leftText{
+            text-align: left;
+        }
+
+        .card--centerText{
+            text-align: center;
+        }
+
+        .card--upperCaseText{
+            text-transform: uppercase;
+        }
+
+        .card--sentenceCaseText{
+            text-transform: capitalize;
+        }
+
+        @media screen and (min-width: 1000px) and (min-height: 411px){
+            body{
+                overflow: hidden;
+            }
+
+            section{
+                width: 450px;
+                padding: 0px 25px;
+                height: 100vh;
+                overflow-y: auto;
+            }
+        
+            h1{
+                margin: 20px auto;
+                font-size: 35px;
+            }
+        
+            div.goingToICE__form__field label{
+                font-size: 24px;
+                text-align: left;
+            }
+        
+            div.goingToICE__form__field input{
+                font-size: 30px;
+            }
+        
+            button#download-btn{
+                font-size: 20px;
+            }
+        
+            div.goingToICE__form__field{
+                margin: 10px auto;
+            }
+        
+            img#preview{
+                max-width:200px;
+                max-height: 200px;
+            }
+        
+            div.image-cover{
+                width: calc(100% - 500px);
+                background: url(ICE-web.jpg);
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+                height:100vh;
+                display: block;
+            }
+
+            article.goingToICE {
+                margin: 15px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+	<main>
+        <section>
+            <article class="goingToICE">
+                <h1>Are you going to Ingeniators Conference & Exhibition 2019 ?</h1>
+                <form id="going-ICE2019" class="goingToICE__form">
+                    <div class="goingToICE__form__field">
+                        <label for="your-surname">Your Surname</label>
+                        <input type="text" id="your-surname" name="lname" maxlength="15" class="goingToICE__form__field__surname" required autocomplete="family-name" autofocus>
+                    </div>
+                    <div class="goingToICE__form__field">
+                        <label for="your-name">Your First Name</label>
+                        <input type="text" id="your-name" name="fname" maxlength="15" class="goingToICE__form__field__name" required autocomplete="given-name">
+                    </div>
+                    <div class="goingToICE__form__field">
+                        <label for="your-img">Your Picture</label>
+                        <input type="file" onchange="previewFile()" id="your-img" name="your-img" accept=".png, .jpg, .jpeg">
+                    </div>
+                    <div class="goingToICE__form__field">
+                            <img id="preview" src="" alt="">
+                        </div>
+		            <button id="download-btn" role="button">Yes I'm Going to ICE'19</button>
+                </form>
+            </article>
+        </section>
+        <div class="image-cover"></div>
+       <article aria-hidden = "true" id="frame" > <!-- style="z-index: -200" -->
+            <article class="card">
+                <div class="card__div card__header card--redBackground">
+                    <p class="card__hashtag card--centerText card--whiteFont card__p">#ICE'19</p>
+                </div>
+                <div class="card__div card__img-container">
+                    <img src="" alt="" class="card__img" id="person-img">
+                </div>
+                <div class="card__div card__details card--centerText card--whiteFont card__div">
+                    <p class="card__details__personName card__p card--sentenceCaseText">
+                        <span id="person__surname" class="card--redBackground"></span> <span id="person__name" class="card--redFont"></span>
+                    </p>
+                    <p class="card__p">is going to</p>
+                    <p class="card__p card--upperCaseText card--centerText card__p__program">
+                        <span class="card--redFont">Ingeniators </span>
+                        <span>Conference & </span>
+                        <span class="card--redFont">Exhibition </span>
+                        <span>2019</span>
+                    </p>
+                </div>
+                <div class="card__div card__address">
+                    <p class="card__address__p card--sentenceCaseText card--leftText card__p">
+                        <span class="address__p p__university">University of port harcourt</span>
+                        <span class="address__p p__date">July 13, 2019.</span>
+                        <span class="address__p p__motto card--upperCaseText">The 21st Century Engineer</span>
+                    </p>
+                </div>
+                <div class="card__div card__icon_-container">
+                    <img src="icon.png" alt="" class="card__container" style="width:100px; height: 100px; margin-left: auto; align-self: center;">
+                </div>
+                <div class="card__div card__footer card--redBackground">
+                    <p class="card__p card__footer card--upperCaseText ">
+                    <p class="card__p card__footer card--upperCaseText card--whiteFont">
+                        <span>Tech</span>
+                        <span>Business</span>
+                        <span>Funding</span>
+                    </p>
+                </div>
+            </article>
+        </article>
+    </main>
+    <script>
+        const btn = document.getElementById("download-btn");
+        const preview = document.getElementById("preview");
+        const inputSurname = document.getElementById("your-surname");
+        const inputName = document.getElementById("your-name");
+        const inputImg = document.getElementById("your-img");
+        const iframe = document.getElementById('frame');
+        const imgPerson = document.querySelector("#person-img");
+
+        /*Adding service Worker*/
+
+        // if ('serviceWorker' in navigator) {
+        //     window.addEventListener('load', function() {
+        //             navigator.serviceWorker.register('sw.js')
+        //             .then(function(registration) {
+        //                 console.log('ServiceWorker registration successful');
+        //             })
+        //         .catch(function(err) {
+        //                 console.log('ServiceWorker registration failed: ' + err);
+        //     });
+        //     });
+        // };
+
+        function previewFile(){
+            //To preview image
+            var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+            var reader  = new FileReader();
+            preview.src = "";
+            preview.style.display = 'none';
+
+            if (file) {
+                reader.readAsDataURL(file); //reads the data as a URL
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                    preview.style.display = 'block';
+                    imgPerson.src = reader.result;
+                }
+            }
+        }
+
+        const voteOfThanks = () =>{
+            const mainArticle = document.querySelector('article.goingToICE');
+            const form = document.querySelector('form');
+            const div = document.createElement('div');
+            const p = document.createElement('p');
+            const name = inputName.value;
+            const surname = inputSurname.value;
+
+            form.style.display = "none";
+
+            div.setAttribute('style','width: 100%; display: flex; flex-wrap: wrap; padding: 20px 0px; margin: 10px auto;')
+
+            p.classList.add('thanks');
+            p.innerHTML =`Thank you, <span>${name} ${surname}</span> for supporting our cause.<br>You can also share this image on social media. Kindly use the hash tag <ul class="hashtag-list"><li>#ICE2019</li></ul>`;
+
+            div.append(p);
+
+            mainArticle.append(div);
+        }
+
+        const hideback = () =>{
+            iframe.setAttribute('aria-hidden', true);
+            voteOfThanks();
+            alert('File downloaded as ' + link.download);
+        }
+
+        btn.addEventListener("click", function(event){
+            event.preventDefault();
+
+            if (inputName.value == "" || inputSurname.value == "" || inputImg.value == "") {
+                if (inputName.value == "" ) {
+                    //Check if it's Name
+                    alert('Please provide your first name in the first name field');
+                } else if (inputName.value == "" ) {
+                    //Check if it's Surname
+                    alert('Please provide your surname in the surname field');
+                } else if (inputImg.value == "") {
+                    //Check if it's Image
+                    alert('Please provide your desire image in the image field');
+                }
+
+            } else{
+                iframe.setAttribute('aria-hidden', false);
+
+                const name = inputName.value;
+                const surname = inputSurname.value;
+                const imgSrc = preview.src;
+
+                geneICESupport(name, surname);
+            }
+        });
+
+        const geneICESupport = (name, surname) =>{
+            // const iframeInnerDoc = iframe.contentWindow.document.children[0];
+
+            const txtSurname = document.querySelector("#person__surname");
+            const txtName = document.querySelector("#person__name");
+            const imageContainer = document.querySelector(".card"); // Article card
+
+            console.log('txtName', txtName);
+            console.log('txtSurname', txtSurname);
+            console.log('imgPerson', imgPerson);
+            console.log('imageContainer', imageContainer);
+
+            txtSurname.innerHTML = surname;
+            txtName.innerHTML = name;
+            
+
+            html2canvas(imageContainer,{
+                allowTaint : true
+            }).then(function(canvas) {
+
+                let link = document.createElement("a");
+                document.body.appendChild(link);
+                
+                const perName = surname +"-"+ name;
+                const fileName = perName.replace(/ +/g, "");
+                link.download = perName + '#ICE2019';
+                link.href = canvas.toDataURL("image/png");
+                link.target = '_blank';
+                link.click();
+            });
+            setTimeout(hideback, 10);
+        }
+    </script>
+</body>
+</html>
